@@ -3,6 +3,8 @@ import random
 
 disk = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6, "H": 7, "I": 8, "J": 9, "K": 10, "L": 11, "M": 12, "N": 13, "O": 14, "P": 15, "Q": 16, "R": 17, "S": 18, "T": 19, "U": 20, "V": 21, "W": 22, "X": 23, "Y": 24, "Z": 25} #reference disk to store letters and their indexes, will be used to match up shifted letters
 
+numToChar = {0: "A", 1: "B", 2: "C", 3: "D", 4: "E", 5: "F", 6: "G", 7: "H", 8: "I", 9: "J", 10: "K", 11: "L", 12: "M", 13: "N", 14: "O", 15: "P", 16: "Q", 17: "R", 18: "S", 19: "T", 20: "U", 21: "V", 22: "W", 23: "X", 24: "Y", 25: "Z"}
+
 #function to shift letters 
   #input: start position uppercase letter
 def shift_index(outer_disk_key, inner_disk_key):
@@ -36,16 +38,18 @@ def begin(text, period_length, inner_disk_key): #once completed, add shift_inter
       if num != period_length:
         cipher += shift_letter(shift_num, letter.upper())
         num += 0
-      #else:
-        #shift_num = shift_index()
+      else: #if num = period_length
+        randNum = random.randint(0, 24) #don't include 25 because that wouldn't shift it
+        #shift_num = shift_index(numToChar.get(randNum), inner_disk_key)
+        shift_num = shift_index("L", inner_disk_key)
+        cipher += shift_letter(shift_num, letter.upper())
   print(cipher)
 
 #random testing: 
-begin("hello world", 15, "S")
-print(disk)
+begin("hello world", 5, "S")
 
 #python3 alphatext period_length key_letter
-  #period_length = how long between letters before shifting
+  #period_length = after period_length letters, shift
   #key_letter = the outer disk's letter that will match with every shift
 
 ''''
