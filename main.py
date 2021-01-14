@@ -11,9 +11,10 @@ def shift_index(outer_disk_key, inner_disk_key):
   outer_disk_letters = list(disk.keys())
   outer_index = disk[outer_disk_key] 
   inner_index = disk[inner_disk_key] 
-  shift_i = outer_index - inner_index 
+  shift_i = inner_index - outer_index
   return shift_i
 
+print(shift_index("S", "K"))
 #function to match up letters after shift 
 def shift_letter(shift_index, letter):
   shifted_letter_i = disk[letter] + shift_index 
@@ -28,21 +29,22 @@ def shift_letter(shift_index, letter):
 #function to keep track of matching 
   #add uppercase letter to indicate new shift change 
   #determine new shift change with random number from 0-25
-def begin(text, period_length, inner_disk_key): #once completed, add shift_interval and randomize new shifts and delete spaces from words! 
+def begin(text, period_length, outer_disk_key): #once completed, add shift_interval and randomize new shifts and delete spaces from words! 
 #find shift_index using k (Alberti's starting place): 
-  shift_num = shift_index("K", inner_disk_key) #note: make lowercase eventually
+  text = text.replace(" ", "") #delete all whitespace
+  shift_num = shift_index(outer_disk_key, "K") #note: make lowercase eventually
   cipher = "K" #start each shift with the key of the shift
   num = 0 #position of letter to recognize when to shift
   for letter in text:
-    if letter != " ":
-      if num != period_length:
-        cipher += shift_letter(shift_num, letter.upper())
-        num += 0
-      else: #if num = period_length
-        randNum = random.randint(0, 24) #don't include 25 because that wouldn't shift it
-        #shift_num = shift_index(numToChar.get(randNum), inner_disk_key)
-        shift_num = shift_index("L", inner_disk_key)
-        cipher += shift_letter(shift_num, letter.upper())
+    #if letter != " ":
+    if num != period_length:
+      cipher += shift_letter(shift_num, letter.upper())
+      num += 1
+    else: #if num = period_length
+      randNum = random.randint(0, 24) #don't include 25 because that wouldn't shift it
+      #shift_num = shift_index(numToChar.get(randNum), outer_disk_key)
+      shift_num = shift_index(outer_disk_key, "L")
+      cipher += shift_letter(shift_num, letter.upper())
   print(cipher)
 
 #random testing: 
