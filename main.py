@@ -26,16 +26,26 @@ def shift_letter(shift_index, letter):
 #function to keep track of matching 
   #add uppercase letter to indicate new shift change 
   #determine new shift change with random number from 0-25
-def begin(text, lower_disk_key): #once completed, add shift_interval and randomize new shifts and delete spaces from words! 
+def begin(text, period_length, lower_disk_key): #once completed, add shift_interval and randomize new shifts and delete spaces from words! 
 #find shift_index using k (Alberti's starting place): 
   shift_num = shift_index("K", lower_disk_key) #note: make lowercase eventually
   cipher = "K" #start each shift with the key of the shift
-  for letter in text: 
-    cipher += shift_letter(shift_num, letter.upper())
+  num = 0 #position of letter to recognize when to shift
+  for letter in text:
+    if letter != " ":
+      if num != period_length:
+        cipher += shift_letter(shift_num, letter.upper())
+        num += 0
+      #else:
+        #shift_num = shift_index()
   print(cipher)
 
 #random testing: 
-begin("hello", "S")
+begin("hello world", 15, "S")
+
+#python3 alphatext period_length period_increment
+  #period_length = how long between letters before shifting
+  #period_increment = shift by specified # of letters each time
 
 ''''
 shift_index = shift_index("K", "S")
