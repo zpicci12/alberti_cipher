@@ -32,19 +32,26 @@ def shift_letter(shift_index, letter):
 def begin(text, period_length, outer_disk_key): #once completed, add shift_interval and randomize new shifts and delete spaces from words! 
 #find shift_index using k (Alberti's starting place): 
   text = text.replace(" ", "") #delete all whitespace
-  shift_num = shift_index(outer_disk_key, "K") #note: make lowercase eventually
-  cipher = "K" #start each shift with the key of the shift
+  #shift_num = shift_index(outer_disk_key, "K") #note: make lowercase eventually
+  randNum = random.randint(0, 25)
+  shift_num = shift_index(numToChar.get(randNum), outer_disk_key)
+  #cipher = "K" #start each shift with the key of the shift
+  cipher = ""
   num = 0 #position of letter to recognize when to shift
   for letter in text:
     #if letter != " ":
     if num != period_length:
+      if num == 0: 
+        cipher += numToChar.get(randNum)
       cipher += shift_letter(shift_num, letter.upper())
       num += 1
-    else: #if num = period_length
+    else: #if num = period_length, then shift
       randNum = random.randint(0, 24) #don't include 25 because that wouldn't shift it
-      #shift_num = shift_index(numToChar.get(randNum), outer_disk_key)
-      shift_num = shift_index(outer_disk_key, "L")
+      shift_num = shift_index(numToChar.get(randNum), outer_disk_key)
+      cipher += numToChar.get(randNum)
+      #shift_num = shift_index(outer_disk_key, "L")
       cipher += shift_letter(shift_num, letter.upper())
+      num = 1
   print(cipher)
 
 #random testing: 
@@ -53,6 +60,7 @@ begin("hello world", 5, "S")
 #python3 alphatext period_length key_letter
   #period_length = after period_length letters, shift
   #key_letter = the outer disk's letter that will match with every shift
+
 
 ''''
 shift_index = shift_index("K", "S")
