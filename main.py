@@ -5,11 +5,11 @@ disk = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6, "H": 7, "I": 8, 
 
 #function to shift letters 
   #input: start position uppercase letter
-def shift_index(upper_disk_key, lower_disk_key):
-  upper_disk_letters = list(disk.keys())
-  upper_index = disk[upper_disk_key] 
-  lower_index = disk[lower_disk_key] 
-  shift_i = upper_index - lower_index 
+def shift_index(outer_disk_key, inner_disk_key):
+  outer_disk_letters = list(disk.keys())
+  outer_index = disk[outer_disk_key] 
+  inner_index = disk[inner_disk_key] 
+  shift_i = outer_index - inner_index 
   return shift_i
 
 #function to match up letters after shift 
@@ -26,9 +26,9 @@ def shift_letter(shift_index, letter):
 #function to keep track of matching 
   #add uppercase letter to indicate new shift change 
   #determine new shift change with random number from 0-25
-def begin(text, period_length, lower_disk_key): #once completed, add shift_interval and randomize new shifts and delete spaces from words! 
+def begin(text, period_length, inner_disk_key): #once completed, add shift_interval and randomize new shifts and delete spaces from words! 
 #find shift_index using k (Alberti's starting place): 
-  shift_num = shift_index("K", lower_disk_key) #note: make lowercase eventually
+  shift_num = shift_index("K", inner_disk_key) #note: make lowercase eventually
   cipher = "K" #start each shift with the key of the shift
   num = 0 #position of letter to recognize when to shift
   for letter in text:
@@ -42,10 +42,11 @@ def begin(text, period_length, lower_disk_key): #once completed, add shift_inter
 
 #random testing: 
 begin("hello world", 15, "S")
+print(disk)
 
-#python3 alphatext period_length period_increment
+#python3 alphatext period_length key_letter
   #period_length = how long between letters before shifting
-  #period_increment = shift by specified # of letters each time
+  #key_letter = the outer disk's letter that will match with every shift
 
 ''''
 shift_index = shift_index("K", "S")
