@@ -76,7 +76,6 @@ def begin(text, outer_disk_key, period_length):
         print("Encoding in progress...")
         cipher += inner_disk_key #start each shift with the key of the shift
     cipher += shift_letter(shift_num, letter.upper())
-    print(num)
     num += 1
   print("--------------- \nFINAL CIPHER: " + cipher)
 
@@ -84,5 +83,8 @@ def begin(text, outer_disk_key, period_length):
 if __name__ == "__main__": 
   text = sys.argv[1] #text to encode
   outer_disk_key = sys.argv[2].upper()  #letter for outer disk position (uppercase)
-  period_length = sys.argv[3] #interval at which shift setting changes (every period_length letters) 
-  begin(text, outer_disk_key, int(period_length))
+  period_length = int(sys.argv[3]) #interval at which shift setting changes (every period_length letters)
+  if period_length > len(text):
+    print("Period length is longer than text length. Please try again.") 
+  else: 
+    begin(text, outer_disk_key, period_length)
