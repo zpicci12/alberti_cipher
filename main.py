@@ -30,36 +30,7 @@ disk = {
     "Z": 25
 }  #reference disk to store letters and their indexes, will be used to match up shifted letters
 
-numToChar = {
-    0: "A",
-    1: "B",
-    2: "C",
-    3: "D",
-    4: "E",
-    5: "F",
-    6: "G",
-    7: "H",
-    8: "I",
-    9: "J",
-    10: "K",
-    11: "L",
-    12: "M",
-    13: "N",
-    14: "O",
-    15: "P",
-    16: "Q",
-    17: "R",
-    18: "S",
-    19: "T",
-    20: "U",
-    21: "V",
-    22: "W",
-    23: "X",
-    24: "Y",
-    25: "Z"
-} #another reference disk with letters/numbers inverted
-
-#function to shift letters
+#function to determine amount to shift disk
 #input: start position uppercase letter
 def shift_index(outer_disk_key, inner_disk_key):
     outer_disk_letters = list(disk.keys())
@@ -79,59 +50,37 @@ def shift_letter(shift_index, letter):
     shifted_letter = disk_letters[shifted_letter_i]
     return (shifted_letter.lower())
 
+#function to choose a random letter and shift the disk
+def shift(outer_disk_key): 
+  randNum = random.randint(0, 25)
+  disk_letters = list(disk.keys())
+  inner_disk_key = disk_letters[randNum]
+  print("The inner disk key is: " + inner_disk_key)
+  shift_num = shift_index(outer_disk_key, disk_letters[randNum])
+  return(inner_disk_key, shift_num)
+
 
 #function to keep track of matching
 #add uppercase letter to indicate new shift change
 #determine new shift change with random number from 0-25
-def begin(text, period_length, outer_disk_key):
-    text = text.replace(" ", "")  #delete all whitespace
-    #shift_num = shift_index(outer_disk_key, "K") #note: make lowercase eventually
-    randNum = random.randint(0, 25)
-    shift_num = shift_index(outer_disk_key, numToChar.get(randNum))
-    #cipher = "K" #start each shift with the key of the shift
-    cipher = ""
-    num = 0  #position of letter to recognize when to shift
-    for letter in text:
-        #if letter != " ":
-        if num != period_length:
-            if num == 0:
-                cipher += numToChar.get(randNum)
-            cipher += shift_letter(shift_num, letter.upper())
-            num += 1
-        else:  #if num = period_length, then shift
-            randNum = random.randint(
-                0, 24)  #don't include 25 because that wouldn't shift it
-            shift_num = shift_index(outer_disk_key, numToChar.get(randNum))
-            cipher += numToChar.get(randNum)
-            #shift_num = shift_index(outer_disk_key, "L")
-            cipher += shift_letter(shift_num, letter.upper())
-            num = 1
-    print(cipher)
+def begin(text, outer_disk_key, period_length):
+  print("Starting! \nYour text is: " + text + "\nThe outer disk key is: " + str(outer_disk_key) + "\n----------------")
+    #text = text.replace(" ", "")  #delete all whitespace 
+  cipher = ""
+  num = 0 #position of letter to recognize when to shift
+  for letter in text:
+    if num == 0 or num == period_length: #the disk needs to be shifted
+        print("Beginning new shift. the cipher is currently: " + cipher)
+        inner_disk_key, shift_num = shift(outer_disk_key) #begin new shift
+        print("Encoding in progress...")
+        cipher += inner_disk_key #start each shift with the key of the shift
+    cipher += shift_letter(shift_num, letter.upper())
+    num += 1
+  print("--------------- \nFINAL CIPHER: " + cipher)
 
-
-#random testing:
-begin("hello world", 5, "S")
-
-#python3 alphatext period_length key_letter
-#period_length = after period_length letters, shift
-#key_letter = the outer disk's letter that will match with every shift
-''''
-shift_index = shift_index("K", "S")
-shift_letter(shift_index, "H")
-shift_letter(shift_index, "E")
-shift_letter(shift_index, "L")
-shift_letter(shift_index, "L")
-shift_letter(shift_index, "O")
-shift_letter(shift_index, "W")
-shift_letter(shift_index, "O")
-shift_letter(shift_index, "R")
-shift_letter(shift_index, "L")
-shift_letter(shift_index, "D")
-
-'''
-'''
+#note: text must be ONE WORD (no whitespace), unless we changed it to a file input
 if __name__ == "__main__": 
-text = sys.argv[1]
-lower_disk_key = sys.argv[2]  #letter for start position (uppercase) (for the first shift, this will get matched with k because that's what Alberti did)
-shift_interval = sys.argv[3] #interval at which shift setting changes (every n letters)   
-'''
+  text = sys.argv[1] #text to encode
+  outer_disk_key = sys.argv[2].upper()  #letter for outer disk position (uppercase)
+  period_length = sys.argv[3] #interval at which shift setting changes (every period_length letters) 
+  begin(text, outer_disk_key, int(period_length))
