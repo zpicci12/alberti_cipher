@@ -108,6 +108,7 @@ def create_inner_disk():
   return inner_disk  
 
 if __name__ == "__main__":
+  print("DIY ALBERTI CIPHER       \n~~~~~~~~~~~~~~~~~~")
   inner_disk = create_inner_disk()
   method = input("encode or decode? Type one: ")
   while method != 'encode' and method != 'decode':
@@ -117,6 +118,8 @@ if __name__ == "__main__":
   elif method == 'decode':
     text = input("Insert plaintext: ") 
   outer_disk_key = input("Insert outer disk key: ").upper()
+  while outer_disk_key not in outer_disk: 
+    outer_disk_key = input("Outer disk key must be a letter. Please try again: ").upper()
   period_length = int(input("Insert period length: "))
   while period_length > len(text):
     period_length = input("Period length is longer than text length. Please try again.")
