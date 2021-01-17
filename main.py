@@ -66,7 +66,7 @@ def encode_shift(outer_disk_key):
   randNum = random.randint(0, 25)
   disk_letters = list(disk.keys())
   inner_disk_key = disk_letters[randNum]
-  print("The inner disk key is: " + inner_disk_key)
+  print("The inner disk key is: " + inner_disk_key.lower())
   shift_num = shift_index(outer_disk_key, disk_letters[randNum])
   return(inner_disk_key, shift_num)
 
