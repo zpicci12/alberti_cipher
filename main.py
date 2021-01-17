@@ -113,9 +113,11 @@ if __name__ == "__main__":
   if method == "encode":
     text = sys.argv[2] #text to encode
     outer_disk_key = sys.argv[3].upper()  #letter for outer disk position (uppercase)
+    if outer_disk_key not in disk: 
+      raise Exception("Outer disk key must be a letter. Please try again.")
     period_length = int(sys.argv[4]) #interval at which shift setting changes (every period_length letters)
     if period_length > len(text):
-      print("Period length is longer than text length. Please try again.") 
+      raise Exception("Period length is longer than text length. Please try again.") 
     else: 
       encode(text, outer_disk_key, period_length)
   elif method == "decode":
@@ -123,4 +125,4 @@ if __name__ == "__main__":
     outer_disk_key = sys.argv[3].upper()  #letter for outer disk position (uppercase)
     decode(text, outer_disk_key)
   else: 
-    print("Invalid method type. Please incidate \"encode\" or \"decode.\"")
+    raise Exception("Invalid method type. Please incidate \"encode\" or \"decode.\"")
