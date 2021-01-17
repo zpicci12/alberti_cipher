@@ -5,19 +5,21 @@
 import sys 
 
 if __name__ == "__main__":
-  print("Create your inner disk!")
+  print("Create your inner disk! \n*Must be single-character slots and no slot must be the same.* \n---------------- ")
   inner_disk = {} #inner disk to be created by user
   for i in range (0, 26):
     if i == 0 or i == 20:
-      slot = input(str(i + 1) + "st character: ") 
+      slot = input(str(i + 1) + "st slot character: ") 
     elif i == 1 or i == 21:
-      slot = input(str(i + 1) + "nd character: ")
+      slot = input(str(i + 1) + "nd slot character: ")
     elif i == 2 or i == 22:
-      slot = input(str(i + 1) + "rd character: ")
+      slot = input(str(i + 1) + "rd slot character: ")
     else: 
-      slot = input(str(i + 1) + "th character: ")
+      slot = input(str(i + 1) + "th slot character: ")
     while slot == "":
-      slot = input("Please try again: ") 
+      slot = input("Blank slot. Please try again: ")
+    while slot in inner_disk: 
+      slot = input("Repeat character. Please try again: ")
     inner_disk[slot] = i
   print(inner_disk)
 
