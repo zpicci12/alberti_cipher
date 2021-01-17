@@ -106,11 +106,6 @@ def decode(text, outer_disk_key):
       continue 
     plain_txt += decode_letter(shift_num, letter.upper())
   print("--------------- \nFINAL PLAINTEXT: " + plain_txt)
-    
-#encode("zoepiccirillo", "A", 6)
-#decode("IhwmxqPrrxgxDoor", "A")
-
-
 
 #note: text must be ONE WORD (no whitespace), unless we changed it to a file input
 if __name__ == "__main__": 
