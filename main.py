@@ -33,14 +33,13 @@ disk = {
 #function to determine amount to shift disk
 #input: start position uppercase letter
 def shift_index(outer_disk_key, inner_disk_key):
-    outer_disk_letters = list(disk.keys())
     outer_index = disk[outer_disk_key]
     inner_index = disk[inner_disk_key]
     shift_i = inner_index - outer_index
     return shift_i
 
-#function to match up letters after shift
-def shift_letter(shift_index, letter):
+#function to match up letters after shift; match outside disk (plaintext letter) to inside disk (ciphertext letter)
+def encode_letter(shift_index, letter):
     shifted_letter_i = disk[letter] + shift_index
     disk_letters = list(disk.keys())
     if shifted_letter_i > 25:
@@ -50,8 +49,20 @@ def shift_letter(shift_index, letter):
     shifted_letter = disk_letters[shifted_letter_i]
     return (shifted_letter.lower())
 
+#function to match up letters after shift; match outside disk (plaintext letter) to inside disk (ciphertext letter)
+def decode_letter(shift_index, letter):
+    shifted_letter_i = disk[letter] - shift_index
+    disk_letters = list(disk.keys())
+    if shifted_letter_i > 25:
+        shifted_letter_i = shifted_letter_i % 26
+    if shifted_letter_i < 0:
+        shifted_letter_i = 26 + shifted_letter_i
+    shifted_letter = disk_letters[shifted_letter_i]
+    return(shifted_letter.lower())
+
+
 #function to choose a random letter and shift the disk
-def shift(outer_disk_key): 
+def encode_shift(outer_disk_key): 
   randNum = random.randint(0, 25)
   disk_letters = list(disk.keys())
   inner_disk_key = disk_letters[randNum]
@@ -59,11 +70,15 @@ def shift(outer_disk_key):
   shift_num = shift_index(outer_disk_key, disk_letters[randNum])
   return(inner_disk_key, shift_num)
 
+def decode_shift(outer_disk_key, inner_disk_key): 
+  shift_num = shift_index(outer_disk_key, inner_disk_key)
+  return(shift_num)
 
-#function to keep track of matching
+
+#decode plaintext
 #add uppercase letter to indicate new shift change
 #determine new shift change with random number from 0-25
-def begin(text, outer_disk_key, period_length):
+def encode(text, outer_disk_key, period_length):
   print("Starting! \nYour text is: " + text + "\nThe outer disk key is: " + str(outer_disk_key) + "\n----------------")
     #text = text.replace(" ", "")  #delete all whitespace 
   cipher = ""
@@ -72,13 +87,31 @@ def begin(text, outer_disk_key, period_length):
     if num == 0 or num == period_length: #the disk needs to be shifted
         num = 0
         print("Beginning new shift. the cipher is currently: " + cipher)
-        inner_disk_key, shift_num = shift(outer_disk_key) #begin new shift
+        inner_disk_key, shift_num = encode_shift(outer_disk_key) #begin new shift
         print("Encoding in progress...")
         cipher += inner_disk_key #start each shift with the key of the shift
-    cipher += shift_letter(shift_num, letter.upper())
+    cipher += encode_letter(shift_num, letter.upper())
     num += 1
   print("--------------- \nFINAL CIPHER: " + cipher)
 
+#decode ciphertext
+def decode(text, outer_disk_key): 
+  print("The outer disk key is: " + outer_disk_key)
+  cipher = ""  
+  for letter in text: 
+    if letter.isupper():
+      print(letter + " is the start of a shift.")
+      shift_num = decode_shift(outer_disk_key, letter)
+      print("The shift index is " + str(shift_num))
+      continue 
+    cipher += decode_letter(shift_num, letter.upper())
+  print(cipher)
+    
+encode("zoepiccirillo", "A", 6)
+decode("GfukvoiWyenehhOc", "A")
+
+
+'''
 #note: text must be ONE WORD (no whitespace), unless we changed it to a file input
 if __name__ == "__main__": 
   text = sys.argv[1] #text to encode
@@ -87,4 +120,5 @@ if __name__ == "__main__":
   if period_length > len(text):
     print("Period length is longer than text length. Please try again.") 
   else: 
-    begin(text, outer_disk_key, period_length)
+    encode(text, outer_disk_key, period_length)
+'''
