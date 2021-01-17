@@ -82,17 +82,21 @@ def encode(text, outer_disk_key, period_length, inner_disk):
   print("--------------- \nFINAL CIPHER: " + cipher)
 
 def create_inner_disk():
-  print("Create your inner disk! \n*Must be single-character slots and no slot must be the same.* \n---------------- ")
+  print("Create your inner disk! \n*Must be single-character slots, and no slot must be the same.* \n---------------- ")
   inner_disk = {} #inner disk to be created by user
   for i in range (0, 26):
     if i == 0 or i == 20:
-      slot = input(str(i + 1) + "st slot character: ") 
+      slot = input(str(i + 1) + "st slot character: ")
+      slot = slot.lower() 
     elif i == 1 or i == 21:
       slot = input(str(i + 1) + "nd slot character: ")
+      slot = slot.lower() 
     elif i == 2 or i == 22:
       slot = input(str(i + 1) + "rd slot character: ")
+      slot = slot.lower() 
     else: 
       slot = input(str(i + 1) + "th slot character: ")
+      slot = slot.lower() 
     while slot == "":
       slot = input("Blank slot. Please try again: ")
     while slot in inner_disk: 
