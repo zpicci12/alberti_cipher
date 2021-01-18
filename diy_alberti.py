@@ -53,6 +53,16 @@ def encode_letter(shift_index, letter, inner_disk):
     shifted_letter = inner_disk_letters[shifted_letter_i]
     return (shifted_letter.lower())
 
+def decode_letter(shift_index, letter):
+    shifted_letter_i = disk[letter] - shift_index
+    disk_letters = list(disk.keys())
+    if shifted_letter_i > 25:
+        shifted_letter_i = shifted_letter_i % 26
+    if shifted_letter_i < 0:
+        shifted_letter_i = 26 + shifted_letter_i
+    shifted_letter = disk_letters[shifted_letter_i]
+    return(shifted_letter.lower())
+
 #function to choose a random letter and shift the disk
 def encode_shift(outer_disk_key, inner_disk): 
   randNum = random.randint(0, 25)
@@ -61,6 +71,10 @@ def encode_shift(outer_disk_key, inner_disk):
   print("The inner disk key is: " + inner_disk_key)
   shift_num = shift_index(outer_disk_key, inner_disk_letters[randNum], inner_disk)
   return(inner_disk_key, shift_num)
+
+def decode_shift(outer_disk_key, inner_disk_key): 
+  shift_num = shift_index(outer_disk_key, inner_disk_key)
+  return(shift_num)
 
 #decode plaintext
 #add uppercase letter to indicate new shift change
@@ -111,6 +125,39 @@ def create_inner_disk():
       print(inner_disk_keys[i] + ", ", end="")
   return inner_disk  
 
+#decode ciphertext
+def decode(text, outer_disk_key): 
+  print("Starting! \nYour ciphertext is: " + text + "\nThe outer disk key is: " + outer_disk_key + "\n----------------")
+  inner_disk = {} #inner disk to be created by user
+  for i in range (0, 26):
+    if i == 0 or i == 20:
+      slot = input(str(i + 1) + "st slot character: ")
+      slot = slot.lower() 
+    elif i == 1 or i == 21:
+      slot = input(str(i + 1) + "nd slot character: ")
+      slot = slot.lower() 
+    elif i == 2 or i == 22:
+      slot = input(str(i + 1) + "rd slot character: ")
+      slot = slot.lower() 
+    else: 
+      slot = input(str(i + 1) + "th slot character: ")
+      slot = slot.lower() 
+    while slot == "":
+      slot = input("Blank slot. Please try again: ")
+    while slot in inner_disk: 
+      slot = input("Repeat character. Please try again: ")
+    inner_disk[slot] = i
+  print("----------------\nYour inner disk is:")
+  plain_txt = ""  
+  for letter in text: 
+    if letter.isupper():
+      print(letter + " is the start of a shift. The plaintext is currently: " + plain_txt)
+      print("Decoding in progress...")
+      shift_num = decode_shift(outer_disk_key, letter)
+      continue 
+    plain_txt += decode_letter(shift_num, letter.upper())
+  print("--------------- \nFINAL PLAINTEXT: " + plain_txt)
+
 if __name__ == "__main__":
   print("DIY ALBERTI CIPHER       \n~~~~~~~~~~~~~~~~~~")
   inner_disk = create_inner_disk()
@@ -129,4 +176,5 @@ if __name__ == "__main__":
     period_length = input("Period length is longer than text length. Please try again.")
   if method == "encode":
      encode(text, outer_disk_key, period_length, inner_disk)
-  
+  if method == "decode":
+    decode(text, outer_disk_key)

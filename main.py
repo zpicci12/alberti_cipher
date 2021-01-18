@@ -108,6 +108,7 @@ def decode(text, outer_disk_key):
   print("--------------- \nFINAL PLAINTEXT: " + plain_txt)
 
 #note: text must be ONE WORD (no whitespace), unless we changed it to a file input
+#FORMAT: python main.py en/decode text outer_disk_key period_length
 if __name__ == "__main__": 
   method = sys.argv[1] 
   if method == "encode":
