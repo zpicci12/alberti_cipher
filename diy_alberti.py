@@ -38,7 +38,7 @@ outer_disk = {
 #input: start position uppercase letter
 def shift_index(outer_disk_key, inner_disk_key, inner_disk):
     outer_index = outer_disk[outer_disk_key]
-    inner_index = inner_disk[inner_disk_key]
+    inner_index = inner_disk[inner_disk_key.lower()]
     shift_i = inner_index - outer_index
     return shift_i
 
@@ -54,7 +54,7 @@ def encode_letter(shift_index, letter, inner_disk):
     return (shifted_letter.lower())
 
 def decode_letter(shift_index, letter, inner_disk):
-    shifted_letter_i = inner_disk[letter] - shift_index
+    shifted_letter_i = inner_disk[letter.lower()] - shift_index
     inner_disk_letters = list(inner_disk.keys())
     if shifted_letter_i > 25:
         shifted_letter_i = shifted_letter_i % 26
@@ -73,7 +73,7 @@ def encode_shift(outer_disk_key, inner_disk):
   return(inner_disk_key, shift_num)
 
 def decode_shift(outer_disk_key, inner_disk_key): 
-  shift_num = shift_index(outer_disk_key, inner_disk_key)
+  shift_num = shift_index(outer_disk_key, inner_disk_key, inner_disk)
   return(shift_num)
 
 #decode plaintext
@@ -94,6 +94,18 @@ def encode(text, outer_disk_key, period_length, inner_disk):
     cipher += encode_letter(shift_num, letter, inner_disk)
     num += 1
   print("--------------- \nFINAL CIPHER: " + cipher)
+
+#decode ciphertext
+def decode(text, outer_disk_key, period_length, inner_disk): 
+  print("Starting! \nYour ciphertext is: " + text + "\nThe outer disk key is: " + outer_disk_key + "\n----------------")
+  plain_txt = ""  
+  for letter in text: 
+    if letter.isupper():
+      print(letter + " is the start of a shift. The plaintext is currently: " + plain_txt)
+      print("Decoding in progress...")
+      shift_num = decode_shift(outer_disk_key, letter)
+    plain_txt += decode_letter(shift_num, letter.upper(), inner_disk)
+  print("--------------- \nFINAL PLAINTEXT: " + plain_txt)
 
 def create_inner_disk():
   print("Create your inner disk! \n*Must be single-character slots, and no slot must be the same.* \n---------------- ")
@@ -125,19 +137,6 @@ def create_inner_disk():
       print(inner_disk_keys[i] + ", ", end="")
   return inner_disk  
 
-#decode ciphertext
-def decode(text, outer_disk_key, period_length, inner_disk): 
-  print("Starting! \nYour ciphertext is: " + text + "\nThe outer disk key is: " + outer_disk_key + "\n----------------")
-  plain_txt = ""  
-  for letter in text: 
-    if letter.isupper():
-      print(letter + " is the start of a shift. The plaintext is currently: " + plain_txt)
-      print("Decoding in progress...")
-      shift_num = decode_shift(outer_disk_key, letter)
-      continue 
-    plain_txt += decode_letter(shift_num, letter.upper())
-  print("--------------- \nFINAL PLAINTEXT: " + plain_txt)
-
 if __name__ == "__main__":
   print("DIY ALBERTI CIPHER       \n~~~~~~~~~~~~~~~~~~")
   inner_disk = create_inner_disk()
@@ -155,6 +154,6 @@ if __name__ == "__main__":
   while period_length > len(text):
     period_length = input("Period length is longer than text length. Please try again.")
   if method == "encode":
-     encode(text, outer_disk_key, period_length, inner_disk)
+    encode(text, outer_disk_key, period_length, inner_disk)
   elif method == "decode":
     decode(text, outer_disk_key, period_length, inner_disk)
