@@ -53,14 +53,14 @@ def encode_letter(shift_index, letter, inner_disk):
     shifted_letter = inner_disk_letters[shifted_letter_i]
     return (shifted_letter.lower())
 
-def decode_letter(shift_index, letter):
-    shifted_letter_i = disk[letter] - shift_index
-    disk_letters = list(disk.keys())
+def decode_letter(shift_index, letter, inner_disk):
+    shifted_letter_i = inner_disk[letter] - shift_index
+    inner_disk_letters = list(inner_disk.keys())
     if shifted_letter_i > 25:
         shifted_letter_i = shifted_letter_i % 26
     if shifted_letter_i < 0:
         shifted_letter_i = 26 + shifted_letter_i
-    shifted_letter = disk_letters[shifted_letter_i]
+    shifted_letter = inner_disk_letters[shifted_letter_i]
     return(shifted_letter.lower())
 
 #function to choose a random letter and shift the disk
@@ -126,28 +126,8 @@ def create_inner_disk():
   return inner_disk  
 
 #decode ciphertext
-def decode(text, outer_disk_key): 
+def decode(text, outer_disk_key, period_length, inner_disk): 
   print("Starting! \nYour ciphertext is: " + text + "\nThe outer disk key is: " + outer_disk_key + "\n----------------")
-  inner_disk = {} #inner disk to be created by user
-  for i in range (0, 26):
-    if i == 0 or i == 20:
-      slot = input(str(i + 1) + "st slot character: ")
-      slot = slot.lower() 
-    elif i == 1 or i == 21:
-      slot = input(str(i + 1) + "nd slot character: ")
-      slot = slot.lower() 
-    elif i == 2 or i == 22:
-      slot = input(str(i + 1) + "rd slot character: ")
-      slot = slot.lower() 
-    else: 
-      slot = input(str(i + 1) + "th slot character: ")
-      slot = slot.lower() 
-    while slot == "":
-      slot = input("Blank slot. Please try again: ")
-    while slot in inner_disk: 
-      slot = input("Repeat character. Please try again: ")
-    inner_disk[slot] = i
-  print("----------------\nYour inner disk is:")
   plain_txt = ""  
   for letter in text: 
     if letter.isupper():
@@ -167,7 +147,7 @@ if __name__ == "__main__":
   if method == 'encode': 
     text = input("Insert plaintext: ")
   elif method == 'decode':
-    text = input("Insert plaintext: ") 
+    text = input("Insert ciphertext: ") 
   outer_disk_key = input("Insert outer disk key: ").upper()
   while outer_disk_key not in outer_disk: 
     outer_disk_key = input("Outer disk key must be a letter. Please try again: ").upper()
@@ -176,5 +156,5 @@ if __name__ == "__main__":
     period_length = input("Period length is longer than text length. Please try again.")
   if method == "encode":
      encode(text, outer_disk_key, period_length, inner_disk)
-  if method == "decode":
-    decode(text, outer_disk_key)
+  elif method == "decode":
+    decode(text, outer_disk_key, period_length, inner_disk)
