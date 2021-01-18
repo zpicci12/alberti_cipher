@@ -38,7 +38,7 @@ outer_disk = {
 #input: start position uppercase letter
 def shift_index(outer_disk_key, inner_disk_key, inner_disk):
     outer_index = outer_disk[outer_disk_key]
-    inner_index = inner_disk[inner_disk_key] #lower?
+    inner_index = inner_disk[inner_disk_key.lower()] 
     shift_i = inner_index - outer_index
     return shift_i
 
@@ -114,7 +114,6 @@ def decode(text, outer_disk_key, period_length, inner_disk):
       shift_num = decode_shift(outer_disk_key, letter)
       n += 1
       continue
-    print(shift_num)
     plain_txt += decode_letter(shift_num, letter,inner_disk)
     n += 1
   print("--------------- \nFINAL PLAINTEXT: " + plain_txt)
@@ -152,9 +151,7 @@ def create_inner_disk():
       print(inner_disk_keys[i] + ", ", end="")
   return inner_disk  
 
-if __name__ == "__main__":
-  print("DIY ALBERTI CIPHER       \n~~~~~~~~~~~~~~~~~~")
-  inner_disk = create_inner_disk()
+def take_inputs(inner_disk):
   method = input("encode or decode? Type one: ")
   while method != 'encode' and method != 'decode':
      method = input("Invalid method type. Please incidate \"encode\" or \"decode\": ")
@@ -172,5 +169,17 @@ if __name__ == "__main__":
     encode(text, outer_disk_key, period_length, inner_disk)
   elif method == "decode":
     decode(text, outer_disk_key, period_length, inner_disk)
+if __name__ == "__main__":
+  print("DIY ALBERTI CIPHER       \n~~~~~~~~~~~~~~~~~~")
+  inner_disk = create_inner_disk()
+  take_inputs(inner_disk)
+  repeat = input("----------------\nWould you like to encode or decode something else? (y/n) ") 
+  while repeat == "y":
+    take_inputs(inner_disk)
+    repeat = input("----------------\nWould you like to encode or decode something else? (y/n) ") 
+  if repeat == "n":
+    print("\nCongrats, you used your own Alberti cipher! Hope you had fun!")
+
+  
 
 #note: ad
