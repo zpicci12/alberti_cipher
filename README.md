@@ -8,5 +8,5 @@ The Alberti Cipher is the first instance of a polyalphabetic cipher. Created in 
 **make run ARGS="encode/decode text outer_disk_key period_length"**
 
 ### To create your own Alberti cipher: 
-**make diy**
 *You will be prompted to type in any character/letter/number in any order 26 times to create your own version fo the Alberti cipher. This only affects the inner disk, as the outer disk will remain the same (English alphabetical order).*
+**make diy**
