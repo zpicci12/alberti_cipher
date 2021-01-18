@@ -104,7 +104,8 @@ def decode(text, outer_disk_key, period_length, inner_disk):
       print(letter + " is the start of a shift. The plaintext is currently: " + plain_txt)
       print("Decoding in progress...")
       shift_num = decode_shift(outer_disk_key, letter)
-    plain_txt += decode_letter(shift_num, letter.upper(), inner_disk)
+      continue
+    plain_txt += decode_letter(shift_num, letter, inner_disk)
   print("--------------- \nFINAL PLAINTEXT: " + plain_txt)
 
 def create_inner_disk():
