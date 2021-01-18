@@ -100,7 +100,7 @@ def decode(text, outer_disk_key, period_length, inner_disk):
   print("----------------\nStarting! \nYour ciphertext is: " + text + "\nThe outer disk key is: " + outer_disk_key + "\n----------------")
   plain_txt = ""
   n = 0  
-  for letter in text: #note: fix this to go by peroid number rather than uppercase letters
+  for letter in text: 
     if n == 0:
       print(letter + " is the start of a shift. The plaintext is currently: " + plain_txt)
       print("Decoding in progress...")
@@ -166,7 +166,7 @@ def take_inputs(inner_disk):
   while period_length > len(text):
     period_length = input("Period length is longer than text length. Please try again.")
   if method == "encode":
-    encode(text, outer_disk_key, period_length, inner_disk)
+    encode(text.replace(" ", ""), outer_disk_key, period_length, inner_disk)
   elif method == "decode":
     decode(text, outer_disk_key, period_length, inner_disk)
 if __name__ == "__main__":
@@ -180,6 +180,3 @@ if __name__ == "__main__":
   if repeat == "n":
     print("\nCongrats, you used your own Alberti cipher! Hope you had fun!")
 
-  
-
-#note: ad

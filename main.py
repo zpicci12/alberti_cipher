@@ -85,11 +85,11 @@ def encode(text, outer_disk_key, period_length):
   num = 0 #position of letter to recognize when to shift
   for letter in text:
     if num == 0 or num == period_length: #the disk needs to be shifted
-        num = 0
-        print("Beginning new shift. The cipher is currently: " + cipher)
-        inner_disk_key, shift_num = encode_shift(outer_disk_key) #begin new shift
-        print("Encoding in progress...")
-        cipher += inner_disk_key #start each shift with the key of the shift
+      num = 0
+      print("Beginning new shift. The cipher is currently: " + cipher)
+      inner_disk_key, shift_num = encode_shift(outer_disk_key) #begin new shift
+      print("Encoding in progress...")
+      cipher += inner_disk_key #start each shift with the key of the shift
     cipher += encode_letter(shift_num, letter.upper())
     num += 1
   print("--------------- \nFINAL CIPHER: " + cipher)
