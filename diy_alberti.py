@@ -124,10 +124,13 @@ def create_inner_disk():
     else: 
       slot = input(str(i + 1) + "th slot character: ")
       slot = slot.lower() 
-    while slot == "":
-      slot = input("Blank slot. Please try again: ")
-    while slot in inner_disk: 
-      slot = input("Repeat character. Please try again: ")
+    while len(slot) != 1 or (slot in inner_disk) or (slot == ""):
+      if len(slot) != 1:
+        slot = input("You can only input one character per slot. Please try again: ")
+      if slot in inner_disk: 
+        slot = input("Repeat character. Please try again: ")
+      if slot == "":
+        slot = input("Blank slot. Please try again: ")
     inner_disk[slot] = i
   print("----------------\nYour inner disk is:")
   for i in range(0, 26):
