@@ -1,5 +1,5 @@
 run:
-	@python main.py $(ARGS)
+	@python3 main.py $(ARGS)
 
 diy: 
-	@python diy_alberti.py
+	@python3 diy_alberti.py
