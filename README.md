@@ -9,11 +9,11 @@ The Alberti Cipher is the first instance of a polyalphabetic cipher. Created in 
 In both versions of the cipher, you must choose any letter from A-Z (denoted the outer_disk_key) that will be used to align with every random rotation of the inner disk. This random rotation occurs every period_length letters. 
 
 ### Cloning: 
-git clone https://github.com/zpicci12/alberti_cipher.git
+`git clone https://github.com/zpicci12/alberti_cipher.git`
 
 ### To use the regular cipher encoder/decoder:
-make run ARGS="encode/decode text outer_disk_key period_length"
+`make run ARGS="encode/decode text outer_disk_key period_length"`
 
 ### To create your own Alberti cipher:
-make diy  
+`make diy` 
 *You will be prompted to type in any character/letter/number in any order 26 times to create your own version of the Alberti cipher. This only affects the inner disk, as the outer disk will remain the same (English alphabetical order).*
