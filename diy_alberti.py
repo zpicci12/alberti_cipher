@@ -44,7 +44,7 @@ def shift_index(outer_disk_key, inner_disk_key, inner_disk):
 
 #function to match up letters after shift; match outside disk (plaintext letter) to inside disk (ciphertext letter)
 def encode_letter(shift_index, letter, inner_disk):
-    shifted_letter_i = inner_disk[letter] + shift_index
+    shifted_letter_i = outer_disk[letter.upper()] + shift_index #maybe just disk and not inner?
     inner_disk_letters = list(inner_disk.keys())
     if shifted_letter_i > 25:
         shifted_letter_i = shifted_letter_i % 26
