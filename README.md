@@ -12,7 +12,8 @@ In both versions of the cipher, you must choose any letter from A-Z (denoted the
 `git clone https://github.com/zpicci12/alberti_cipher.git`
 
 ### To use the regular cipher encoder/decoder:
-`make run ARGS="encode/decode text outer_disk_key period_length"`
+`make run ARGS="encode/decode text outer_disk_key period_length"`  
+Example: make run ARGS="encode helloworld F 5"
 
 ### To create your own Alberti cipher:
 `make diy`  
