@@ -163,8 +163,6 @@ def take_inputs(inner_disk):
   while outer_disk_key not in outer_disk: 
     outer_disk_key = input("Outer disk key must be a letter. Please try again: ").upper()
   period_length = int(input("Insert period length: "))
-  while period_length > len(text):
-    period_length = input("Period length is longer than text length. Please try again.")
   if method == "encode":
     encode(text.replace(" ", ""), outer_disk_key, period_length, inner_disk)
   elif method == "decode":
