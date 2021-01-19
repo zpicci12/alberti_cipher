@@ -15,5 +15,5 @@ In both versions of the cipher, you must choose any letter from A-Z (denoted the
 `make run ARGS="encode/decode text outer_disk_key period_length"`
 
 ### To create your own Alberti cipher:
-`make diy` 
+`make diy`  
 *You will be prompted to type in any character/letter/number in any order 26 times to create your own version of the Alberti cipher. This only affects the inner disk, as the outer disk will remain the same (English alphabetical order).*
